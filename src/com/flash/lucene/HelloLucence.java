@@ -8,8 +8,16 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.*;
 import org.apache.lucene.util.Version;
 
@@ -59,19 +67,25 @@ public class HelloLucence {
 		
 	}
 	
-	
-	
 	//搜索
 	public void search(){
-		//创建directory
-		
-		//创建indexreader
-		
-		//创建indexreseach
-		
-		//创建查询的query
-		
-		//
+		try {
+			Directory directory = FSDirectory.open(new File("D:/lucence/index"));
+			IndexReader reader = DirectoryReader.open(directory);
+			IndexSearcher searcher = new IndexSearcher(reader);
+			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
+			QueryParser parser = new QueryParser(Version.LUCENE_40, "content", analyzer);
+			Query query = parser.parse("5999");
+			TopDocs tds = searcher.search(query, 1);
+			ScoreDoc[] sds = tds.scoreDocs;
+			for (ScoreDoc sd: sds){
+				Document d = searcher.doc(sd.doc);
+				System.out.println(d.get("filename")+d.get("path"));
+			}
+			reader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 	
 }

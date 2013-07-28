@@ -9,4 +9,10 @@ public class TestLucence {
 		HelloLucence hl = new HelloLucence();
 		hl.index();
 	}
+	
+	@Test
+	public void testSearch(){
+		HelloLucence hl = new HelloLucence();
+		hl.search();
+	}
 }
