@@ -2,8 +2,4 @@ mygit
 =====
 it is mygit
 
-test get
-
-123
-
-456
+[20130728 lucence 4.2.1]
